@@ -12,4 +12,4 @@ function solution(arr) {
     return arr.reduce((acc, cur) => (acc + cur) ,0)/arr.length;
 }
 
-리듀스의 기본 형태를 잘 기억하자!
+//리듀스의 기본 형태를 잘 기억하자!
