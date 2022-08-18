@@ -11,15 +11,9 @@
     주의 사항
     반복문(for)문을 사용해야 합니다.
     '#' 기호가 없는 경우 undefined를 리턴해야 합니다.
-    입출력 예시
-    1
-    2
-    3
-    4
-    5
-    6
-    7
-    8
+
+    * 입출력 예시
+
     let output = findTheBug('wo#rd');
     console.log(output); // --> 2
 
