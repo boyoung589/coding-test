@@ -53,6 +53,7 @@ function solution_1(n, lost, reserve) {
 
 //test_2
 function solution_2(n, lost, reserve) {
+    // 원본 배열을 건드리지 않기 위해 배열 복사
     // 배열들 정렬하기
     // have = n - lost.length 도난당하지 않은 학생 수
     // lost[0] 이 reserve에 있는지 확인
