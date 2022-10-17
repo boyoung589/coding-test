@@ -69,3 +69,9 @@ function solution_1(s) {
   answer=Number(arr.join(''));
   return answer;
 }
+
+/**test_2 */
+function solution_2(s) {
+  var answer = 0;
+  return answer;
+}
