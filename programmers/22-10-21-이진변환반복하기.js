@@ -44,15 +44,29 @@ s	result
 4번의 이진 변환을 하는 동안 1개의 0을 제거했으므로, [4,1]을 return 해야 합니다.
  */
 
+// let answer = [0,0];
+// function solution(s) {
+//     //탈출조건: s 가 1일 때
+//     if(s === '1') {
+//         return answer;
+//     };
+//     //s의 모든 0 제거
+//     answer[0] += 1;
+//     let numLength=s.split('').filter(el => el !== '0').length;
+//     answer[1] += s.length-numLength;
+//     solution(numLength.toString(2));
+// }
+
 let answer = [0,0];
 function solution(s) {
     //탈출조건: s 가 1일 때
     if(s === '1') {
         return answer;
-    };
-    //s의 모든 0 제거
-    answer[0] += 1;
-    let numLength=s.split('').filter(el => el !== '0').length;
-    answer[1] += s.length-numLength;
-    solution(numLength.toString(2));
+    } else { //s의 모든 0 제거
+        answer[0] += 1;
+        let numLength=s.split('').filter(el => el !== '0').length;
+        answer[1] += s.length-numLength;
+        solution(numLength.toString(2));
+    }
+    return answer;
 }
