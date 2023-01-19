@@ -65,3 +65,10 @@ function solution(dirs) {
   let answer = new Set(rout).size;
   return answer/2;
 }
+
+//  방향성을 상관하지 않고 지나간 길은 제외([0,1]=>[1,1])
+//  객체로 좌표 움직이는 법 복습 필요
+//  구조분해할당 복습 필요
+//  set 복습
+//  continue && break
+//  push && append
