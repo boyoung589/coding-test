@@ -1,0 +1,105 @@
+# 달리기 경주
+# 💡**문제 분석 요약**
+
+- 매개변수
+    - `players` : 1등부터 현재 등수 순서대로 담긴 문자열 배열
+    - `callings` : 해설진이 부른 이름을 담은 문자열 배열
+- callings 에 나온 선수는 해당 선수가 앞 순위를 추월한 것.
+- 경주가 끝났을 때 선수들의 이름을 등수 순서대로 리턴하시오
+- 제한사항
+    - 5 ≤ `players`의 길이 ≤ 50,000
+        - `players[i]`는 i번째 선수의 이름을 의미합니다.
+        - `players`의 원소들은 알파벳 소문자로만 이루어져 있습니다.
+        - `players`에는 중복된 값이 들어가 있지 않습니다.
+        - 3 ≤ `players[i]`의 길이 ≤ 10
+    - 2 ≤ `callings`의 길이 ≤ 1,000,000
+        - `callings`는 `players`의 원소들로만 이루어져 있습니다.
+        - 경주 진행중 1등인 선수의 이름은 불리지 않습니다.
+
+# 💡**알고리즘 설계**
+
+1. 순위를 저장하고 불러오기 위한 객체 grade 선언
+2. players를 순회하면서 `이름: 등수` 형태로 grade에 할당
+3. callings를 순회
+    1. callings의 요소의 grade에 저장된 순위를 변수 idx에 할당
+    2. 불린 선수의 이전 등수 선수를 players에서 검색하여 pre 변수에 할당
+    3. players 배열에서 callings의 요소, 이전 등수 선수의 위치 변경
+        1. players[idx-1] = calling 요소
+        2. players[idx] = pre
+    4. grade 객체에 바뀐 등수 갱신
+        1. grade[calling[i]] = idx-1
+        2. grade[pre] = idx
+4. 갱신된 players 리턴
+
+# 💡코드
+
+```jsx
+function solution(players, callings) {
+		//등수 검색을 위한 객체 grade
+    let grade = {};
+    players.map((el, idx)=> grade[el] = idx);
+    for(let i=0; i<callings.length; i++){
+		    
+		    //해설자가 부른 선수의 인덱스
+        let idx = grade[callings[i]];
+				
+				//불린 사람의 앞 등수 이름
+        let pre = players[idx-1];
+        
+        //앞사람과 뒷사람의 등수 교환
+        players[idx-1] = callings[i];
+        players[idx] = pre;
+        
+        //갱신된 등수 grade에 저장
+        grade[callings[i]] = idx-1;
+        grade[pre] = idx;
+    }
+    return players;
+}
+```
+
+# 💡시간복잡도
+
+- O(n): 검색을 객체를 이용해 이중순회하지 않아 순회를 한번만 돌림
+
+# 💡 틀린 이유와 수정
+
+1. for 문 안에서 indexOf를 사용하여 players 배열을 이중 순회함 ⇒ 시간초과
+    
+    ```jsx
+    function solution(players, callings) {
+        for(let i=0; i<callings.length; i++){
+            let idx = players.indexOf(callings[i]);
+            let memo = players[idx-1];
+            players[idx] = memo;
+            players[idx-1] = callings[i];
+        }
+        return players;
+    }
+    ```
+    
+2. 객체를 이용하여 저장된 순위를 불러오려고 했으나 순위 확인용으로만 객체를 쓴 것이 아니라 객체 자체만으로 결과를 도출하려다보니 for문 안에서 find를 이용해 이중순회하고, 리턴문에서 sort와 reduce로 이중순회하여 오히려 더 긴 시간이 할애됨.
+    
+    ```jsx
+    function solution(players, callings) {
+        let grade = {};
+        players.map((el, idx)=> grade[idx] = el);
+        for(let i=0; i<callings.length; i++){
+            let idx = Object.keys(grade).find(key => grade[key] === callings[i]);
+            let memo = grade[idx-1];
+            grade[idx] = memo;
+            grade[idx-1] = callings[i];
+        }
+        return Object.entries(grade).sort(([,a],[,b])=> a-b).reduce((r, [k, v])=>([...r, v]), []);
+    }
+    ```
+    
+
+# 💡다른 풀이
+
+1. 
+
+# 💡 느낀점 or 기억할정보
+
+- 자료를 저장해서 필요한 부분만 검색할 때 객체를 이용하자
+- 자료에 변화가 생긴 경우 리스트와 저장된 자료 양 쪽 다 갱신해주면 된다!
